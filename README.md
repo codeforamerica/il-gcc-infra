@@ -20,7 +20,7 @@ plan command to see what changes will be made:
 ```bash
 cd tofu/config/staging # Replace with the appropriate configuration
 tofu init
-tofu plan -o tfplan.out
+tofu plan -out tfplan.out
 ```
 
 Review the plan output. If the changes are acceptable, apply the changes:
