@@ -1,0 +1,69 @@
+name: Plan the deployment pipeline
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Environment to plan on'
+        default: 'staging'
+        required: true
+        type: string
+      config:
+        description: 'The OpenTofu configuration to plan'
+        default: 'staging'
+        required: true
+        type: string
+    outputs:
+      plan:
+        description: "The plan output from the tofu plan command"
+        value: ${{ jobs.plan.outputs.plan }}
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to plan on'
+        default: 'staging'
+        required: true
+        type: environment
+      config:
+        description: 'The OpenTofu configuration to plan'
+        required: true
+        type: choice
+        options:
+          - staging
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    outputs:
+      plan: ${{ steps.plan.outputs.stdout }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+
+      - name: Initialize OpenTofu
+        working-directory: ./tofu/config/${{ inputs.config }}
+        run: tofu init
+
+      - name: Plan changes
+        id: plan
+        working-directory: ./tofu/config/${{ inputs.config }}
+        run: tofu plan -no-color
+
+      - name: Display plan
+        run: echo "${{ steps.plan.outputs.stdout }}"
