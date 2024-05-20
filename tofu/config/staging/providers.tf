@@ -5,6 +5,7 @@ provider "aws" {
     tags = {
       project     = "illinois-getchildcare"
       environment = "staging"
+      tofu        = "true"
     }
   }
 }
