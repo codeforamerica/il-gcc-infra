@@ -17,6 +17,7 @@ module "backend" {
 
 # Create an S3 bucket and KMS key for logging.
 module "logging" {
+  # tflint-ignore: terraform_module_pinned_source
   source = "github.com/codeforamerica/tofu-modules/aws/logging"
 
   project     = "illinois-getchildcare"
@@ -26,6 +27,7 @@ module "logging" {
 # Create a VPC with public and private subnets. Since this is a staging
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
+  # tflint-ignore: terraform_module_pinned_source
   source = "github.com/codeforamerica/tofu-modules/aws/vpc"
 
   cidr               = "10.0.20.0/22"
@@ -40,6 +42,7 @@ module "vpc" {
 
 # Deploy the Document Transfer service to a Fargate cluster.
 module "document_transfer" {
+  # tflint-ignore: terraform_module_pinned_source
   source = "github.com/codeforamerica/tofu-modules/aws/fargate_service"
 
   project         = "illinois-getchildcare"
