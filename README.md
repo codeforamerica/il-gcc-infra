@@ -14,8 +14,13 @@ the equivalent version of [Terraform].
 To run the configurations locally, you will need to have AWS credentials loaded
 from [Identity Center][identity-center], and installed OpenTofu.
 
-Navigate to the configuration you would like to plan or apply, then run the
-plan command to see what changes will be made:
+Navigate to the configuration you would like to plan or apply. Copy the
+`sample.env` file to `.env`, and set the appropriate values. Make sure this file
+is loaded into your environment. This can be done automatically through various
+shell tools (such as [Oh My Zsh][omz]), or manually by running `source .env`.
+
+With the environment variables loaded, run the plan command to see what changes
+will be made:
 
 ```bash
 cd tofu/config/staging # Replace with the appropriate configuration
