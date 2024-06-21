@@ -28,7 +28,7 @@ module "logging" {
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
   # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules?ref=vpc-peering/aws/vpc"
+  source = "github.com/codeforamerica/tofu-modules/aws/vpc"
 
   cidr               = "10.0.20.0/22"
   project            = "illinois-getchildcare"
@@ -52,7 +52,7 @@ module "vpc" {
 # Deploy the Document Transfer service to a Fargate cluster.
 module "document_transfer" {
   # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules?ref=vpc-peering/aws/fargate_service"
+  source = "github.com/codeforamerica/tofu-modules/aws/fargate_service"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
