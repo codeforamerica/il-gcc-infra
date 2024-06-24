@@ -76,6 +76,20 @@ module "document_transfer" {
     RACK_ENV                    = "staging"
     OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318"
   }
+
+  environment_secrets = {
+    ONEDRIVE_CLIENT_ID = "onedrive:client_id"
+    ONEDRIVE_CLIENT_SECRET = "onedrive:client_secret"
+    ONEDRIVE_TENANT_ID = "onedrive:tenant_id"
+    ONEDRIVE_DRIVE_ID = "onedrive:drive_id"
+  }
+
+  secrets_manager_secrets = {
+    onedrive = {
+      recovery_window = 7
+      description = "Credentials for the OneDrive."
+    }
+  }
 }
 
 output "peer_ids" {
