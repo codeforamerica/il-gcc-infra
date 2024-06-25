@@ -15,6 +15,19 @@ module "backend" {
   environment = "staging"
 }
 
+# Create hosted zones for DNS.
+module "hosted_zones" {
+  source  = "terraform-aws-modules/route53/aws//modules/zones"
+  version = "~> 3.1"
+
+  zones = {
+    document_transfer = {
+      domain_name = "staging.document-transfer.cfa.codes"
+      comment     = "Hosted zone for the Document Transfer service."
+    }
+  }
+}
+
 # Create an S3 bucket and KMS key for logging.
 module "logging" {
   # tflint-ignore: terraform_module_pinned_source
@@ -49,23 +62,10 @@ module "vpc" {
   }
 }
 
-# Create hosted zones for DNS.
-module "hosted_zones" {
-  source  = "terraform-aws-modules/route53/aws//modules/zones"
-  version = "~> 3.1"
-
-  zones = {
-    getchildcare = {
-      domain_name = "staging.getchildcareil.org"
-      comment     = "Hosted zone for the Illinois GetChildcare application."
-    }
-  }
-}
-
 # Deploy the Document Transfer service to a Fargate cluster.
 module "document_transfer" {
   # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/fargate_service"
+  source = "github.com/codeforamerica/tofu-modules?ref=secrets-manager/aws/fargate_service"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
