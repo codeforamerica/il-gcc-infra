@@ -49,6 +49,19 @@ module "vpc" {
   }
 }
 
+# Create hosted zones for DNS.
+module "hosted_zones" {
+  source  = "terraform-aws-modules/route53/aws//modules/zones"
+  version = "~> 3.1"
+
+  zones = {
+    getchildcare = {
+      domain_name = "staging.getchildcareil.org"
+      comment     = "Hosted zone for the Illinois GetChildcare application."
+    }
+  }
+}
+
 # Deploy the Document Transfer service to a Fargate cluster.
 module "document_transfer" {
   # tflint-ignore: terraform_module_pinned_source
@@ -78,16 +91,16 @@ module "document_transfer" {
   }
 
   environment_secrets = {
-    ONEDRIVE_CLIENT_ID = "onedrive:client_id"
+    ONEDRIVE_CLIENT_ID     = "onedrive:client_id"
     ONEDRIVE_CLIENT_SECRET = "onedrive:client_secret"
-    ONEDRIVE_TENANT_ID = "onedrive:tenant_id"
-    ONEDRIVE_DRIVE_ID = "onedrive:drive_id"
+    ONEDRIVE_TENANT_ID     = "onedrive:tenant_id"
+    ONEDRIVE_DRIVE_ID      = "onedrive:drive_id"
   }
 
   secrets_manager_secrets = {
     onedrive = {
       recovery_window = 7
-      description = "Credentials for the OneDrive."
+      description     = "Credentials for the OneDrive."
     }
   }
 }
