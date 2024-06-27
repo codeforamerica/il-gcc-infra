@@ -64,7 +64,7 @@ module "vpc" {
 # Deploy the Document Transfer service to a Fargate cluster.
 module "document_transfer" {
   # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules?ref=secrets-manager/aws/fargate_service"
+  source = "github.com/codeforamerica/tofu-modules/aws/fargate_service"
 
   project         = "illinois-getchildcare"
   project_short   = "il-gcc"
