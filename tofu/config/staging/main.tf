@@ -66,13 +66,13 @@ module "secrets" {
   # tflint-ignore: terraform_module_pinned_source
   source = "github.com/codeforamerica/tofu-modules/aws/secrets"
 
-  project                = "illinois-getchildcare"
-  environment            = "staging"
-  service                = "document-transfer"
+  project     = "illinois-getchildcare"
+  environment = "staging"
+  service     = "document-transfer"
 
   secrets = {
     "consumer/aws" = {
-      description = "AWS Consumer API credentials for the Document Transfer Service."
+      description     = "AWS Consumer API credentials for the Document Transfer Service."
       recovery_window = 7
     }
   }
@@ -84,19 +84,19 @@ module "database" {
 
   logging_key_arn = module.logging.kms_key_arn
   secrets_key_arn = module.secrets.kms_key_arn
-  vpc_id = module.vpc.vpc_id
-  subnets = module.vpc.private_subnets
-  ingress_cidrs = module.vpc.private_subnets_cidr_blocks
+  vpc_id          = module.vpc.vpc_id
+  subnets         = module.vpc.private_subnets
+  ingress_cidrs   = module.vpc.private_subnets_cidr_blocks
 
-  min_capacity = 2
-  max_capacity = 2
+  min_capacity        = 2
+  max_capacity        = 2
   skip_final_snapshot = true
-  apply_immediately = true
+  apply_immediately   = true
   key_recovery_period = 7
 
-  project                = "illinois-getchildcare"
-  environment            = "staging"
-  service                = "document-transfer"
+  project     = "illinois-getchildcare"
+  environment = "staging"
+  service     = "document-transfer"
 }
 
 # Deploy the Document Transfer service to a Fargate cluster.
@@ -125,12 +125,12 @@ module "document_transfer" {
   environment_variables = {
     RACK_ENV                    = "staging"
     OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318"
-    DATABASE_HOST = module.database.cluster_endpoint
+    DATABASE_HOST               = module.database.cluster_endpoint
   }
 
   environment_secrets = {
-    DATABASE_PASSWORD = "${module.database.secret_arn}:password"
-    DATABASE_USER = "${module.database.secret_arn}:username"
+    DATABASE_PASSWORD      = "${module.database.secret_arn}:password"
+    DATABASE_USER          = "${module.database.secret_arn}:username"
     ONEDRIVE_CLIENT_ID     = "onedrive:client_id"
     ONEDRIVE_CLIENT_SECRET = "onedrive:client_secret"
     ONEDRIVE_TENANT_ID     = "onedrive:tenant_id"
