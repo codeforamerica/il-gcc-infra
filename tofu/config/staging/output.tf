@@ -11,6 +11,10 @@ output "onedrive_secret" {
   value = module.microservice.onedrive_secret.secret_arn
 }
 
+output "peer_ids" {
+  value = module.vpc.peer_ids
+}
+
 output "repository_arn" {
   value = module.microservice.repository_arn
 }

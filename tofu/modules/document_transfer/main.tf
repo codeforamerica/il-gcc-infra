@@ -41,6 +41,7 @@ module "database" {
   skip_final_snapshot = var.database_skip_final_snapshot
   apply_immediately   = var.database_apply_immediately
   key_recovery_period = var.key_recovery_period
+  snapshot_identifier = var.database_snapshot
 
   project     = "illinois-getchildcare"
   environment = var.environment

@@ -22,6 +22,12 @@ variable "database_skip_final_snapshot" {
   default     = false
 }
 
+variable "database_snapshot" {
+  type = string
+  description = "The ARN of the snapshot to launch the database from."
+  default = ""
+}
+
 variable "domain" {
   description = "The domain name for the service."
   type        = string
