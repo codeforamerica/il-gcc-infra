@@ -1,12 +1,20 @@
-output "peer_ids" {
-  value = module.vpc.peer_ids
-}
-
 # Display commands to push the Docker image to ECR.
 output "document_transfer_docker_push" {
-  value = module.document_transfer.docker_push
+  value = module.microservice.docker_push
 }
 
 output "database_endpoint" {
-  value = module.database.cluster_endpoint
+  value = module.microservice.database_endpoint
+}
+
+output "onedrive_secret" {
+  value = module.microservice.onedrive_secret.secret_arn
+}
+
+output "repository_arn" {
+  value = module.microservice.repository_arn
+}
+
+output "repository_url" {
+  value = module.microservice.repository_url
 }

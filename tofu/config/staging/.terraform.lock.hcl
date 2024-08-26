@@ -2,20 +2,20 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.opentofu.org/hashicorp/aws" {
-  version     = "5.61.0"
-  constraints = ">= 2.49.0, >= 3.29.0, >= 3.74.0, >= 4.37.0, >= 5.0.0, >= 5.37.0, >= 5.44.0, ~> 5.44, >= 5.46.0, >= 5.59.0, >= 5.61.0"
+  version     = "5.64.0"
+  constraints = ">= 2.49.0, >= 3.29.0, >= 3.74.0, >= 4.37.0, >= 5.0.0, >= 5.37.0, >= 5.44.0, ~> 5.44, >= 5.46.0, >= 5.62.0, >= 5.64.0"
   hashes = [
-    "h1:mpvMeEsALtdfcY/JxTzl7jvY0aLBwGcfEvzb7uyp9hU=",
-    "zh:07be549b36ad739f5d5827202d3bcf4fd72137695c6a1c8023b2b8b92232fef3",
-    "zh:13b350fe41e9aba89c8d368648eb2eed5475eec8154046f3bcc4e2486da38b7f",
-    "zh:2ca3d4e12a50b3a79dbe7032c84116b1d41021fdd79ac6d8aa00fecb402be727",
-    "zh:6327d9be1f9ae775cae6a111fe073b26cf8d4fbb289e22a3897de1da4549705e",
-    "zh:83730ba1c212f1a6fbfaea40ba36c052cf0716c43027c0255b06a1fbf35fd207",
-    "zh:9e5e0acc8bc7a742d4d1ec9d424dc0ff4fbac39d22386da08789066f6033a68a",
-    "zh:d1891b3b9ca996847ffb6f870eb457a9aaf82f9ffc74a2abc66e028b1e3ae4ff",
-    "zh:d488b6a62411fe7a392c12f0aa10a9ae097fbc2ad63ad38baf985e83e328be98",
-    "zh:de8887bbb340e292023447fcb62f300b612426db138e5fc1dfcb3fa886fb2f11",
-    "zh:e08f5eb945d1dda172bed87015eeecfc064d4dc6e9f79abc8d0ad41e65bc861c",
+    "h1:KpIKIAqHDulJwPWovdwWBBHPrHG4AJDWJOpBtBE5XMc=",
+    "zh:0751c0c154b4b6cee673bb047f95c527f984e3066206dceea69a5357db4157cb",
+    "zh:375f116ae66a90f7c455852606acd78e4e005e476abcf681cea6883c8ca5b592",
+    "zh:4ad242818b4ca904d69d8653edd652e7c27261a33cc32bff894d4a4e76f68e5c",
+    "zh:596d8180e5c18d1a3b7d234966df33fbab7012d3e4e964d891787898f771f979",
+    "zh:8aa86de8fccb3a0afbe71c4b2eb2d0fd413b2fd767b5d76731cd87c9cc648585",
+    "zh:93b429af32dc39b8f90081c2067adb37541d89033930034fb6307837b8a20d15",
+    "zh:9bde1c074b2122ab6374832b690c7164a484f50e22448cba272aaff2d6957f01",
+    "zh:d54f3da5a88b8d4eca1792114c9aa07a22be0691fc0b1109dfe667f61c03840b",
+    "zh:e5199b5b7a6d7c7cce17d345d56d06779ec4b00e95339f7fa628085725b139a2",
+    "zh:f4e26c016eccef5d36ed9adec6d3abca83a9c5544215c89002bae9ffd6b64be4",
   ]
 }
 

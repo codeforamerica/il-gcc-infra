@@ -39,7 +39,7 @@ module "logging" {
   environment = "development"
 }
 
-# Create a VPC with public and private subnets. Since this is a staging
+# Create a VPC with public and private subnets. Since this is a development
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
   # tflint-ignore: terraform_module_pinned_source
