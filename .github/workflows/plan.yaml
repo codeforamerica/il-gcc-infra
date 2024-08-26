@@ -67,4 +67,4 @@ jobs:
         run: tofu plan -no-color
 
       - name: Display plan
-        run: echo "${{ steps.plan.outputs.stdout }}"
+        run: printf "%s\n" "${{ steps.plan.outputs.stdout }}"
