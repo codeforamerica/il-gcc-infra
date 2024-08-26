@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "illinois-getchildcare-staging-tfstate"
-    key    = "backend.tfstate"
-    region = "us-east-1"
+    bucket         = "illinois-getchildcare-staging-tfstate"
+    key            = "backend.tfstate"
+    region         = "us-east-1"
     dynamodb_table = "staging.tfstate"
   }
 }
@@ -66,17 +66,17 @@ module "vpc" {
 module "microservice" {
   source = "../../modules/document_transfer"
 
-  environment = "staging"
-  logging_key = module.logging.kms_key_arn
-  vpc_id = module.vpc.vpc_id
-  database_apply_immediately = true
+  environment                  = "staging"
+  logging_key                  = module.logging.kms_key_arn
+  vpc_id                       = module.vpc.vpc_id
+  database_apply_immediately   = true
   database_skip_final_snapshot = true
-  database_capacity_min = 2
-  database_capacity_max = 2
-  secret_recovery_period = 7
-  key_recovery_period = 7
-  domain = "staging.document-transfer.cfa.codes"
-  force_delete = true
+  database_capacity_min        = 2
+  database_capacity_max        = 2
+  secret_recovery_period       = 7
+  key_recovery_period          = 7
+  domain                       = "staging.document-transfer.cfa.codes"
+  force_delete                 = true
 
   # Allow access from the peered web application.
   ingress_cidrs = ["10.226.0.0/16"]

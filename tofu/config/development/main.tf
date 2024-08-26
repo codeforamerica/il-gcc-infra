@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "illinois-getchildcare-development-tfstate"
-    key    = "backend.tfstate"
-    region = "us-east-1"
+    bucket         = "illinois-getchildcare-development-tfstate"
+    key            = "backend.tfstate"
+    region         = "us-east-1"
     dynamodb_table = "development.tfstate"
   }
 }
@@ -25,7 +25,7 @@ module "hosted_zones" {
     document_transfer = {
       domain_name = "development.document-transfer.cfa.codes"
       comment     = "Hosted zone for the Document Transfer service."
-      tags = { service = "document-transfer" }
+      tags        = { service = "document-transfer" }
     }
   }
 }
@@ -58,19 +58,19 @@ module "vpc" {
 module "microservice" {
   source = "../../modules/document_transfer"
 
-  environment = "development"
-  logging_key = module.logging.kms_key_arn
-  vpc_id = module.vpc.vpc_id
-  database_apply_immediately = true
+  environment                  = "development"
+  logging_key                  = module.logging.kms_key_arn
+  vpc_id                       = module.vpc.vpc_id
+  database_apply_immediately   = true
   database_skip_final_snapshot = true
-  database_capacity_min = 2
-  database_capacity_max = 2
-  secret_recovery_period = 0
-  key_recovery_period = 7
-  domain = "development.document-transfer.cfa.codes"
-  force_delete = true
-  public = true
+  database_capacity_min        = 2
+  database_capacity_max        = 2
+  secret_recovery_period       = 0
+  key_recovery_period          = 7
+  domain                       = "development.document-transfer.cfa.codes"
+  force_delete                 = true
+  public                       = true
 
   # Allow access from the peered web application.
-#   ingress_cidrs = ["10.226.0.0/16"]
+  #   ingress_cidrs = ["10.226.0.0/16"]
 }

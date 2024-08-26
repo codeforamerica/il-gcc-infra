@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "illinois-getchildcare-prod-tfstate"
-    key    = "backend.tfstate"
-    region = "us-east-1"
+    bucket         = "illinois-getchildcare-prod-tfstate"
+    key            = "backend.tfstate"
+    region         = "us-east-1"
     dynamodb_table = "prod.tfstate"
   }
 }
@@ -65,13 +65,13 @@ module "vpc" {
 module "microservice" {
   source = "../../modules/document_transfer"
 
-  environment = "prod"
-  logging_key = module.logging.kms_key_arn
-  vpc_id = module.vpc.vpc_id
+  environment           = "prod"
+  logging_key           = module.logging.kms_key_arn
+  vpc_id                = module.vpc.vpc_id
   database_capacity_min = 2
   database_capacity_max = 2
-  domain = "illinois.document-transfer.cfa.codes"
-  database_snapshot = "arn:aws:rds:us-east-1:211125423013:cluster-snapshot:prod-cluster-env-update"
+  domain                = "illinois.document-transfer.cfa.codes"
+  database_snapshot     = "arn:aws:rds:us-east-1:211125423013:cluster-snapshot:prod-cluster-env-update"
 
   # Allow access from the peered web application.
   ingress_cidrs = ["10.65.0.0/16"]

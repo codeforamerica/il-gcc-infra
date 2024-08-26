@@ -106,11 +106,11 @@ module "worker" {
   logging_key_id         = var.logging_key
   force_delete           = var.force_delete
   enable_execute_command = true
-  create_endpoint = false
-  create_repository = false
-  container_command = ["./script/worker", "run"]
-  image_url = module.service.repository_url
-  repository_arn = module.service.repository_arn
+  create_endpoint        = false
+  create_repository      = false
+  container_command      = ["./script/worker", "run"]
+  image_url              = module.service.repository_url
+  repository_arn         = module.service.repository_arn
 
   environment_variables = {
     RACK_ENV                    = var.service_environment != "" ? var.service_environment : var.environment
@@ -122,9 +122,9 @@ module "worker" {
     DATABASE_PASSWORD      = "${module.database.secret_arn}:password"
     DATABASE_USER          = "${module.database.secret_arn}:username"
     ONEDRIVE_CLIENT_ID     = "${module.secrets.secrets["onedrive"].secret_arn}:client_id"
-    ONEDRIVE_CLIENT_SECRET     = "${module.secrets.secrets["onedrive"].secret_arn}:client_secret"
+    ONEDRIVE_CLIENT_SECRET = "${module.secrets.secrets["onedrive"].secret_arn}:client_secret"
     ONEDRIVE_TENANT_ID     = "${module.secrets.secrets["onedrive"].secret_arn}:drive_id"
-    ONEDRIVE_DRIVE_ID     = "${module.secrets.secrets["onedrive"].secret_arn}:tenant_id"
+    ONEDRIVE_DRIVE_ID      = "${module.secrets.secrets["onedrive"].secret_arn}:tenant_id"
   }
 
   tags = { service = "document-transfer" }
