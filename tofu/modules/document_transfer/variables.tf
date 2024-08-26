@@ -24,7 +24,7 @@ variable "database_skip_final_snapshot" {
 
 variable "database_snapshot" {
   type        = string
-  description = "The ARN of the snapshot to launch the database from."
+  description = "Optional name or ARN of the snapshot to restore the cluster from. Only applicable on create."
   default     = ""
 }
 
@@ -36,6 +36,7 @@ variable "domain" {
 variable "environment" {
   description = "The environment in which the service is being deployed."
   type        = string
+  default     = "development"
 }
 
 variable "force_delete" {
