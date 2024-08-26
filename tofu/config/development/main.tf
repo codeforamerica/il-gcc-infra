@@ -70,7 +70,4 @@ module "microservice" {
   domain                       = "development.document-transfer.cfa.codes"
   force_delete                 = true
   public                       = true
-
-  # Allow access from the peered web application.
-  #   ingress_cidrs = ["10.226.0.0/16"]
 }
