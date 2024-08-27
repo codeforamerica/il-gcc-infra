@@ -90,6 +90,12 @@ variable "service_environment" {
   default     = ""
 }
 
+variable "stats_environment" {
+  description = "The environment the stats client should operate in, if different from environment. Use \"staging\" or \"production\" to send stats to the collector."
+  type        = string
+  default     = ""
+}
+
 variable "vpc_id" {
   description = "The ID of the VPC in which the service is deployed."
   type        = string

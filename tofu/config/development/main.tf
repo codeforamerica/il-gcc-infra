@@ -59,6 +59,7 @@ module "microservice" {
   source = "../../modules/document_transfer"
 
   environment                  = "development"
+  stats_environment            = "staging"
   logging_key                  = module.logging.kms_key_arn
   vpc_id                       = module.vpc.vpc_id
   database_apply_immediately   = true

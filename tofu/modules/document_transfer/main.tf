@@ -75,9 +75,10 @@ module "service" {
   ingress_cidrs = var.ingress_cidrs
 
   environment_variables = {
-    RACK_ENV                    = var.service_environment != "" ? var.service_environment : var.environment
-    OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318"
     DATABASE_HOST               = module.database.cluster_endpoint
+    OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318"
+    RACK_ENV                    = var.service_environment != "" ? var.service_environment : var.environment
+    STATSD_ENV                  = var.stats_environment != "" ? var.stats_environment : var.environment
   }
 
   environment_secrets = {
@@ -99,6 +100,7 @@ module "worker" {
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
+  stats_prefix           = "illinois-getchildcare/document-transfer"
   environment            = var.environment
   service                = "doc-transfer-worker"
   service_short          = "doc-worker"
@@ -114,9 +116,10 @@ module "worker" {
   repository_arn         = module.service.repository_arn
 
   environment_variables = {
-    RACK_ENV                    = var.service_environment != "" ? var.service_environment : var.environment
-    OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318"
     DATABASE_HOST               = module.database.cluster_endpoint
+    OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318"
+    RACK_ENV                    = var.service_environment != "" ? var.service_environment : var.environment
+    STATSD_ENV                  = var.stats_environment != "" ? var.stats_environment : var.environment
   }
 
   environment_secrets = {

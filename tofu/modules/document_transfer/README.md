@@ -33,23 +33,24 @@ tofu plan
 
 ## Inputs
 
-| Name                         | Description                                                                                                                                     | Type           | Default         | Required |
-|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------|-----------------|----------|
-| domain                       | Domain name for service. Example: `"staging.service.org"`                                                                                       | `string`       | n/a             | yes      |
-| logging_key                  | The ARN of the KMS key used for logging.                                                                                                        | `string`       | n/a             | yes      |
-| vpc_id                       | The ID of the VPC in which the service is deployed.                                                                                             | `string`       | n/a             | yes      |
-| environment                  | Environment for the project.                                                                                                                    | `string`       | `"development"` | no       |
-| database_apply_immediately   | Immediately applies database changes rather than waiting for the next maintenance window. WARNING: This may result in a restart of the cluster! | `bool`         | `false`         | no       |
-| database_capacity_max        | Maximum capacity for the database cluster in ACUs.                                                                                              | `bool`         | `false`         | no       |
-| database_capacity_min        | Minimum capacity for the database cluster in ACUs.                                                                                              | `bool`         | `false`         | no       |
-| database_skip_final_snapshot | Skips the final snapshot when destroying the database cluster.                                                                                  | `bool`         | `false`         | no       |
-| database_snapshot            | Optional name or ARN of the snapshot to restore the cluster from. Only applicable on create.                                                    | `bool`         | `false`         | no       |
-| force_delete                 | Force deletion of resources. If changing to true, be sure to apply before destroying.                                                           | `bool`         | `false`         | no       |
-| ingress_cidrs                | The CIDR blocks to allow ingress from. The current VPC is allowed by default.                                                                   | `list(string)` | `[]`            | no       |
-| key_recovery_period          | Number of days to recover the KMS key after deletion.                                                                                           | `number`       | `30`            | no       |
-| public                       | Launch the service so that it is available on the public Internet.                                                                              | `bool`         | `false`         | no       |
-| secret_recovery_period       | Recovery period for deleted secrets in days. Must be between 7 and 30, or 0 to force delete immediately.                                        | `number`       | `30`            | no       |
-| service_environment          | The environment the service should operate in, if different from `environment`.                                                                 | `string`       | `""`            | no       |
+| Name                         | Description                                                                                                                                          | Type           | Default         | Required |
+|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|-----------------|----------|
+| domain                       | Domain name for service. Example: `"staging.service.org"`                                                                                            | `string`       | n/a             | yes      |
+| logging_key                  | The ARN of the KMS key used for logging.                                                                                                             | `string`       | n/a             | yes      |
+| vpc_id                       | The ID of the VPC in which the service is deployed.                                                                                                  | `string`       | n/a             | yes      |
+| environment                  | Environment for the project.                                                                                                                         | `string`       | `"development"` | no       |
+| database_apply_immediately   | Immediately applies database changes rather than waiting for the next maintenance window. WARNING: This may result in a restart of the cluster!      | `bool`         | `false`         | no       |
+| database_capacity_max        | Maximum capacity for the database cluster in ACUs.                                                                                                   | `bool`         | `false`         | no       |
+| database_capacity_min        | Minimum capacity for the database cluster in ACUs.                                                                                                   | `bool`         | `false`         | no       |
+| database_skip_final_snapshot | Skips the final snapshot when destroying the database cluster.                                                                                       | `bool`         | `false`         | no       |
+| database_snapshot            | Optional name or ARN of the snapshot to restore the cluster from. Only applicable on create.                                                         | `bool`         | `false`         | no       |
+| force_delete                 | Force deletion of resources. If changing to true, be sure to apply before destroying.                                                                | `bool`         | `false`         | no       |
+| ingress_cidrs                | The CIDR blocks to allow ingress from. The current VPC is allowed by default.                                                                        | `list(string)` | `[]`            | no       |
+| key_recovery_period          | Number of days to recover the KMS key after deletion.                                                                                                | `number`       | `30`            | no       |
+| public                       | Launch the service so that it is available on the public Internet.                                                                                   | `bool`         | `false`         | no       |
+| secret_recovery_period       | Recovery period for deleted secrets in days. Must be between 7 and 30, or 0 to force delete immediately.                                             | `number`       | `30`            | no       |
+| service_environment          | The environment the service should operate in, if different from `environment`.                                                                      | `string`       | `""`            | no       |
+| stats_environment            | The environment the stats client should operate in, if different from environment. Use `"staging"` or `"production"` to send stats to the collector. | `string`       | `""`            | no       |
 
 ## Outputs
 
