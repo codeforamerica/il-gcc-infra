@@ -35,6 +35,7 @@ module "database" {
   vpc_id          = var.vpc_id
   subnets         = data.aws_subnets.private.ids
   ingress_cidrs   = sort([for s in data.aws_subnet.private : s.cidr_block])
+  force_delete    = var.force_delete
 
   min_capacity        = var.database_capacity_min
   max_capacity        = var.database_capacity_max
