@@ -4,7 +4,7 @@ provider "aws" {
   default_tags {
     tags = {
       project     = "illinois-getchildcare"
-      environment = "production"
+      environment = "development"
       tofu        = "true"
     }
   }
