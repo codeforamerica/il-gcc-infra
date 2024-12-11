@@ -8,9 +8,7 @@ terraform {
 }
 
 module "backend" {
-  # TODO: Create releases for tofu-modules and pin to a release.
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/backend"
+  source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.0.0"
 
   project     = "illinois-getchildcare"
   environment = "development"
@@ -32,8 +30,7 @@ module "hosted_zones" {
 
 # Create an S3 bucket and KMS key for logging.
 module "logging" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/logging"
+  source = "github.com/codeforamerica/tofu-modules-aws-logging?ref=1.2.1"
 
   project     = "illinois-getchildcare"
   environment = "development"
@@ -42,8 +39,7 @@ module "logging" {
 # Create a VPC with public and private subnets. Since this is a development
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/vpc"
+  source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.0"
 
   cidr               = "10.0.20.0/22"
   project            = "illinois-getchildcare"
