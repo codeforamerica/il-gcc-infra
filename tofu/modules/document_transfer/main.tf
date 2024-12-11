@@ -1,6 +1,5 @@
 module "secrets" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/secrets"
+  source = "github.com/codeforamerica/tofu-modules-aws-secrets?ref=1.0.0"
 
   project     = "illinois-getchildcare"
   environment = var.environment
@@ -27,8 +26,7 @@ module "secrets" {
 }
 
 module "database" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/serverless_database"
+  source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.0.0"
 
   logging_key_arn = var.logging_key
   secrets_key_arn = module.secrets.kms_key_arn
@@ -53,8 +51,7 @@ module "database" {
 
 # Deploy the Document Transfer service to a Fargate cluster.
 module "service" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/fargate_service"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
@@ -95,8 +92,7 @@ module "service" {
 
 # TODO: Onedrive secrets
 module "worker" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/fargate_service"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"

@@ -8,9 +8,7 @@ terraform {
 }
 
 module "backend" {
-  # TODO: Create releases for tofu-modules and pin to a release.
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/backend"
+  source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.0.0"
 
   project     = "illinois-getchildcare"
   environment = "prod"
@@ -31,8 +29,7 @@ module "hosted_zones" {
 
 # Create an S3 bucket and KMS key for logging.
 module "logging" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "github.com/codeforamerica/tofu-modules/aws/logging"
+  source = "github.com/codeforamerica/tofu-modules-aws-logging?ref=1.2.1"
 
   project     = "illinois-getchildcare"
   environment = "prod"
@@ -40,8 +37,7 @@ module "logging" {
 
 # Create a VPC with public and private subnets.
 module "vpc" {
-  # tflint-ignore: terraform_module_pinned_source
-  source     = "github.com/codeforamerica/tofu-modules/aws/vpc"
+  source     = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.0"
   depends_on = [module.logging]
 
   cidr           = "10.0.24.0/22"
@@ -66,6 +62,7 @@ module "microservice" {
   source = "../../modules/document_transfer"
 
   environment           = "prod"
+  stats_environment     = "production"
   logging_key           = module.logging.kms_key_arn
   vpc_id                = module.vpc.vpc_id
   database_capacity_min = 2
