@@ -3,26 +3,94 @@ module "secrets" {
 
   project     = "illinois-getchildcare"
   environment = var.environment
-  service     = "document-transfer"
+  service     = "il-gcc-application"
 
   secrets = {
     "consumer/aws" = {
-      description     = "AWS Consumer API credentials for the Document Transfer Service."
+      description     = "AWS Consumer API credentials for the IL-GCC Application." # is this needed?
       recovery_window = var.secret_recovery_period
     },
-    "onedrive" = {
-      description     = "Credentials for the OneDrive document destination."
+    "sendgrid" = {
+      description     = "Sendgrid credentials for the IL-GCC application."
       recovery_window = var.secret_recovery_period
       start_value = jsonencode({
-        client_id     = ""
-        client_secret = ""
-        drive_id      = ""
-        tenant_id     = ""
+        sendgrid_api_key     = ""
+        sendgrid_public_key = ""
       })
     },
-    "twilio" = {
-      description     = "Twilio credentials for the Document Transfer Service."
+    "aws/s3" = {
+      description     = "AWS S3 credentials for the IL-GCC application."
       recovery_window = var.secret_recovery_period
+        start_value = jsonencode({
+            access_key     = ""
+            secret_key = ""
+            bucket = ""
+            region = ""
+        })
+    },
+    "smarty" = {
+      description     = "Smarty credentials for the IL-GCC application."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        auth_id     = ""
+        auth_token = ""
+      })
+    },
+    "mixpanel" = {
+      description     = "Mixpanel credentials for the IL-GCC application."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        api_key     = ""
+      })
+    },
+    "google" = {
+      description     = "Google credentials for the IL-GCC application."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        encryption_key     = ""
+      })    
+    },
+    "datadog" = {
+      description     = "Datadog credentials for the IL-GCC application."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        api_key     = ""
+        app_key = ""
+        session_replay_sample_rate = ""
+        rum_app_id = ""
+        rum_client_token = ""
+        environment = ""
+      })
+    },
+    "jobrunr" = {
+      description     = "JobRunr configuration for the IL-GCC application."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        dashboard_enabled     = ""
+        enable_background_jobs = ""
+      })  
+    },
+    "ccms" = {
+      description     = "CCMS credentials for the IL-GCC application."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        ocp_apim_key     = ""
+        api_base_url = ""
+        api_username     = ""
+        api_password = ""
+        transaction_delay = ""
+        enable_integration = ""
+      })
+    },
+    "il-gcc" = {
+      description     = "IL-GCC application configuration."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        wait_for_provider_response     = ""
+        allow_provider_registration = ""
+        convert_uploads_to_pdf = ""
+        enable_dts_integration = false
+      })
     }
   }
 
@@ -53,7 +121,7 @@ module "database" {
   tags = { service = "application" }
 }
 
-# Deploy the Document Transfer service to a Fargate cluster.
+# Deploy the IL-GCC Application to a Fargate cluster.
 module "service" {
   source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
 
@@ -82,10 +150,6 @@ module "service" {
   environment_secrets = {
     DATABASE_PASSWORD      = "${module.database.secret_arn}:password"
     DATABASE_USER          = "${module.database.secret_arn}:username"
-    ONEDRIVE_CLIENT_ID     = "${module.secrets.secrets["onedrive"].secret_arn}:client_id"
-    ONEDRIVE_CLIENT_SECRET = "${module.secrets.secrets["onedrive"].secret_arn}:client_secret"
-    ONEDRIVE_TENANT_ID     = "${module.secrets.secrets["onedrive"].secret_arn}:tenant_id"
-    ONEDRIVE_DRIVE_ID      = "${module.secrets.secrets["onedrive"].secret_arn}:drive_id"
   }
 
   tags = { service = "il-gcc-application" }
@@ -122,10 +186,27 @@ module "worker" {
   environment_secrets = {
     DATABASE_PASSWORD      = "${module.database.secret_arn}:password"
     DATABASE_USER          = "${module.database.secret_arn}:username"
-    ONEDRIVE_CLIENT_ID     = "${module.secrets.secrets["onedrive"].secret_arn}:client_id"
-    ONEDRIVE_CLIENT_SECRET = "${module.secrets.secrets["onedrive"].secret_arn}:client_secret"
-    ONEDRIVE_TENANT_ID     = "${module.secrets.secrets["onedrive"].secret_arn}:drive_id"
-    ONEDRIVE_DRIVE_ID      = "${module.secrets.secrets["onedrive"].secret_arn}:tenant_id"
+    SENDGRID_API_KEY       = "${module.secrets.secrets["sendgrid"].secret_arn}:sendgrid_api_key"
+    SENDGRID_PUBLIC_KEY    = "${module.secrets.secrets["sendgrid"].secret_arn}:sendgrid_public_key"
+    AWS_ACCESS_KEY_ID     = "${module.secrets.secrets["aws/s3"].secret_arn}:access_key"
+    AWS_SECRET_ACCESS_KEY = "${module.secrets.secrets["aws/s3"].secret_arn}:secret_key"
+    AWS_BUCKET            = "${module.secrets.secrets["aws/s3"].secret_arn}:bucket"
+    AWS_REGION            = "${module.secrets.secrets["aws/s3"].secret_arn}:region"
+    SMARTY_AUTH_ID        = "${module.secrets.secrets["smarty"].secret_arn}:auth_id"
+    SMARTY_AUTH_TOKEN     = "${module.secrets.secrets["smarty"].secret_arn}:auth_token"
+    MIXPANEL_API_KEY      = "${module.secrets.secrets["mixpanel"].secret_arn}:api_key"
+    GOOGLE_ENCRYPTION_KEY = "${module.secrets.secrets["google"].secret_arn}:encryption_key"
+    DATADOG_API_KEY       = "${module.secrets.secrets["datadog"].secret_arn}:api_key"
+    DATADOG_APPLICATION_KEY = "${module.secrets.secrets["datadog"].secret_arn}:app_key"
+    DATADOG_SESSION_REPLAY_SAMPLE_RATE = "${module.secrets.secrets["datadog"].secret_arn}:session_replay_sample_rate"
+    DATADOG_RUM_APPLICATION_ID = "${module.secrets.secrets["datadog"].secret_arn}:rum_app_id"
+    DATADOG_RUM_CLIENT_TOKEN = "${module.secrets.secrets["datadog"].secret_arn}:rum_client_token"
+    DATADOG_ENVIRONMENT = "${module.secrets.secrets["datadog"].secret_arn}:environment"
+    JOBRUNR_DASHBOARD_ENABLED = "${module.secrets.secrets["jobrunr"].secret_arn}:dashboard_enabled"
+    ENABLE_BACKGROUND_JOBS_FLAG = "${module.secrets.secrets["jobrunr"].secret_arn}:enable_background_jobs"
+    WAIT_FOR_PROVIDER_RESPONSE = "${module.secrets.secrets["il-gcc"].secret_arn}:wait_for_provider_response"
+    ALLOW_PROVIDER_REGISTRATION = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_provider_registration"
+    CONVERT_UPLOADS_TO_PDF = "${module.secrets.secrets["il-gcc"].secret_arn}:convert_uploads_to_pdf"
   }
 
   tags = { service = "document-transfer" }

@@ -20,7 +20,7 @@ module "hosted_zones" {
   version = "~> 3.1"
 
   zones = {
-    document_transfer = {
+    il_gcc_application = {
       domain_name = "qa.getchildcareil.org"
       comment     = "Hosted zone for the IL-GCC Application QA environment."
     }
