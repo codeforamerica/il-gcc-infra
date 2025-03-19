@@ -7,7 +7,7 @@ module "secrets" {
 
   secrets = {
     "consumer/aws" = {
-      description     = "AWS Consumer API credentials for the IL-GCC Application." # is this needed?
+      description     = "AWS Consumer API credentials for the IL-GCC Application."
       recovery_window = var.secret_recovery_period
     },
     "sendgrid" = {
@@ -94,7 +94,7 @@ module "secrets" {
     }
   }
 
-  tags = { service = "document-transfer" }
+  tags = { service = "il-gcc-application" }
 }
 
 module "database" {
@@ -116,9 +116,9 @@ module "database" {
 
   project     = "illinois-getchildcare"
   environment = var.environment
-  service     = "application"
+  service     = "il-gcc-application"
 
-  tags = { service = "application" }
+  tags = { service = "il-gcc-application" }
 }
 
 # Deploy the IL-GCC Application to a Fargate cluster.
@@ -128,7 +128,7 @@ module "service" {
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
   environment            = var.environment
-  service                = "application"
+  service                = "il-gcc-application"
   service_short          = "app"
   domain                 = var.domain
   vpc_id                 = var.vpc_id
@@ -209,5 +209,5 @@ module "worker" {
     CONVERT_UPLOADS_TO_PDF = "${module.secrets.secrets["il-gcc"].secret_arn}:convert_uploads_to_pdf"
   }
 
-  tags = { service = "document-transfer" }
+  tags = { service = "application-worker" }
 }

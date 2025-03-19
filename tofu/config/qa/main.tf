@@ -8,7 +8,7 @@ terraform {
 }
 
 module "backend" {
-  source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.1.1"
 
   project     = "illinois-getchildcare"
   environment = "qa"
@@ -29,7 +29,7 @@ module "hosted_zones" {
 
 # Create an S3 bucket and KMS key for logging.
 module "logging" {
-  source = "github.com/codeforamerica/tofu-modules-aws-logging?ref=1.2.1"
+  source = "github.com/codeforamerica/tofu-modules-aws-logging?ref=2.1.0"
 
   project     = "illinois-getchildcare"
   environment = "qa"
@@ -38,7 +38,7 @@ module "logging" {
 # Create a VPC with public and private subnets. Since this is a staging
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
-  source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.1"
   
   cidr               = "10.0.28.0/22"
   project            = "illinois-getchildcare"
