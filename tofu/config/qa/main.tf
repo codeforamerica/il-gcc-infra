@@ -40,15 +40,14 @@ module "logging" {
 module "vpc" {
   source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.0"
   
-  # TODO Update this CIDR
-  cidr               = "10.0.20.0/22"
+  cidr               = "10.0.28.0/22"
   project            = "illinois-getchildcare"
   environment        = "qa"
   single_nat_gateway = true
   logging_key_id     = module.logging.kms_key_arn
 
-  private_subnets = ["10.0.22.0/26", "10.0.22.64/26", "10.0.22.128/26"]
-  public_subnets  = ["10.0.20.0/26", "10.0.20.64/26", "10.0.20.128/26"]
+  private_subnets = ["10.0.30.0/26", "10.0.30.64/26", "10.0.30.128/26"]
+  public_subnets  = ["10.0.28.0/26", "10.0.28.64/26", "10.0.28.128/26"]
 }
 
 module "application" {
