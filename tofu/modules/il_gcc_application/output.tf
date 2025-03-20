@@ -10,7 +10,6 @@ output "docker_push" {
   value = module.service.docker_push
 }
 
-
 output "repository_arn" {
   value = module.service.repository_arn
 }
