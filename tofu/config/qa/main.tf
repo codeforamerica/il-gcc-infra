@@ -39,7 +39,7 @@ module "logging" {
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
   source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.1"
-  
+
   cidr               = "10.0.28.0/22"
   project            = "illinois-getchildcare"
   environment        = "qa"

@@ -7,10 +7,6 @@ output "database_endpoint" {
   value = module.microservice.database_endpoint
 }
 
-output "onedrive_secret" {
-  value = module.microservice.onedrive_secret.secret_arn
-}
-
 output "repository_arn" {
   value = module.microservice.repository_arn
 }
