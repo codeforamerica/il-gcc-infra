@@ -8,4 +8,8 @@ provider "aws" {
       tofu        = "true"
     }
   }
+
+  ignore_tags {
+    keys = ["awsApplication"]
+  }
 }

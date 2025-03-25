@@ -33,12 +33,12 @@ module "logging" {
 
   project     = "illinois-getchildcare"
   environment = "staging"
-}
+}.
 
 # Create a VPC with public and private subnets. Since this is a staging
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
-  source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.1"
 
   cidr               = "10.0.20.0/22"
   project            = "illinois-getchildcare"
@@ -56,6 +56,21 @@ module "vpc" {
       region : "us-east-1",
       cidr : "10.226.0.0/16"
     }
+  }
+}
+
+module "bastion" {
+  source = "github.com/codeforamerica/tofu-modules-aws-ssm-bastion?ref=ssm-bastion"
+
+  project                 = "illinois-getchildcare"
+  environment             = "staging"
+  key_pair_name           = "ssm-bastion-test"
+  private_subnet_ids      = module.vpc.private_subnets
+  vpc_id                  = module.vpc.vpc_id
+  kms_key_recovery_period = 7
+
+  tags = {
+    application = "il-gcc-bastion-staging"
   }
 }
 
