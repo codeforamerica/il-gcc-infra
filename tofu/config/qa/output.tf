@@ -1,16 +1,16 @@
 # Display commands to push the Docker image to ECR.
-output "document_transfer_docker_push" {
-  value = module.microservice.docker_push
+output "application_docker_push" {
+  value = module.application.docker_push
 }
 
 output "database_endpoint" {
-  value = module.microservice.database_endpoint
+  value = module.application.database_endpoint
 }
 
 output "repository_arn" {
-  value = module.microservice.repository_arn
+  value = module.application.repository_arn
 }
 
 output "repository_url" {
-  value = module.microservice.repository_url
+  value = module.application.repository_url
 }

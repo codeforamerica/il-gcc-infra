@@ -1,30 +1,17 @@
-terraform {
-  backend "s3" {
-    bucket         = "illinois-getchildcare-qa-tfstate"
-    key            = "backend.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "qa.tfstate"
-  }
-}
+# terraform {
+#   backend "s3" {
+#     bucket         = "illinois-getchildcare-qa-tfstate"
+#     key            = "backend.tfstate"
+#     region         = "us-east-1"
+#     dynamodb_table = "qa.tfstate"
+#   }
+# }
 
 module "backend" {
   source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.1.1"
 
   project     = "illinois-getchildcare"
   environment = "qa"
-}
-
-# Create hosted zones for DNS.
-module "hosted_zones" {
-  source  = "terraform-aws-modules/route53/aws//modules/zones"
-  version = "~> 3.1"
-
-  zones = {
-    il_gcc_application = {
-      domain_name = "qa.getchildcareil.org"
-      comment     = "Hosted zone for the IL-GCC Application QA environment."
-    }
-  }
 }
 
 # Create an S3 bucket and KMS key for logging.
@@ -35,7 +22,7 @@ module "logging" {
   environment = "qa"
 }
 
-# Create a VPC with public and private subnets. Since this is a staging
+# Create a VPC with public and private subnets. Since this is a qa
 # environment, we'll use a single NAT gateway to reduce costs.
 module "vpc" {
   source = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.1"

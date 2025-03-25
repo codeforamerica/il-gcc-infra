@@ -14,16 +14,6 @@ module "secrets" {
         sendgrid_public_key = ""
       })
     },
-    "aws/s3" = {
-      description     = "AWS S3 credentials for the IL-GCC application."
-      recovery_window = var.secret_recovery_period
-      start_value = jsonencode({
-        access_key = ""
-        secret_key = ""
-        bucket     = ""
-        region     = ""
-      })
-    },
     "smarty" = {
       description     = "Smarty credentials for the IL-GCC application."
       recovery_window = var.secret_recovery_period
@@ -119,7 +109,7 @@ module "database" {
 
 # Deploy the IL-GCC Application to a Fargate cluster.
 module "service" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service-il-gcc?ref=v1.0.0"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
@@ -151,13 +141,12 @@ module "service" {
   tags = { service = "app" }
 }
 
-# TODO: Onedrive secrets
 module "worker" {
   source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
-  stats_prefix           = "illinois-getchildcare/document-transfer"
+  stats_prefix           = "illinois-getchildcare/qa"
   environment            = var.environment
   service                = "worker"
   service_short          = "worker"
@@ -174,9 +163,7 @@ module "worker" {
 
   environment_variables = {
     DATABASE_HOST               = module.database.cluster_endpoint
-    OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318"
-    RACK_ENV                    = var.service_environment != "" ? var.service_environment : var.environment
-    STATSD_ENV                  = var.stats_environment != "" ? var.stats_environment : var.environment
+    AWS_BUCKET                  = "get-child-care-illinois-${var.environment}"
   }
 
   environment_secrets = {
@@ -184,10 +171,6 @@ module "worker" {
     DATABASE_USER                      = "${module.database.secret_arn}:username"
     SENDGRID_API_KEY                   = "${module.secrets.secrets["sendgrid"].secret_arn}:sendgrid_api_key"
     SENDGRID_PUBLIC_KEY                = "${module.secrets.secrets["sendgrid"].secret_arn}:sendgrid_public_key"
-    AWS_ACCESS_KEY_ID                  = "${module.secrets.secrets["aws/s3"].secret_arn}:access_key"
-    AWS_SECRET_ACCESS_KEY              = "${module.secrets.secrets["aws/s3"].secret_arn}:secret_key"
-    AWS_BUCKET                         = "${module.secrets.secrets["aws/s3"].secret_arn}:bucket"
-    AWS_REGION                         = "${module.secrets.secrets["aws/s3"].secret_arn}:region"
     SMARTY_AUTH_ID                     = "${module.secrets.secrets["smarty"].secret_arn}:auth_id"
     SMARTY_AUTH_TOKEN                  = "${module.secrets.secrets["smarty"].secret_arn}:auth_token"
     MIXPANEL_API_KEY                   = "${module.secrets.secrets["mixpanel"].secret_arn}:api_key"
