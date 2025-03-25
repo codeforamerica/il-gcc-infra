@@ -37,7 +37,7 @@ module "logging" {
 
 # Create a VPC with public and private subnets.
 module "vpc" {
-  source     = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.0"
+  source     = "github.com/codeforamerica/tofu-modules-aws-vpc?ref=1.1.1"
   depends_on = [module.logging]
 
   cidr           = "10.0.24.0/22"
@@ -56,6 +56,16 @@ module "vpc" {
       cidr : "10.65.0.0/16"
     }
   }
+}
+
+module "bastion" {
+  source = "github.com/codeforamerica/tofu-modules-aws-ssm-bastion?ref=ssm-bastion"
+
+  project                 = "illinois-getchildcare"
+  environment             = "prod"
+  private_subnet_ids      = module.vpc.private_subnets
+  vpc_id                  = module.vpc.vpc_id
+  kms_key_recovery_period = 30
 }
 
 module "microservice" {
