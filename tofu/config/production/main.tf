@@ -58,8 +58,9 @@ module "vpc" {
   }
 }
 
+# Create a bastion host for access to the VPC over SSM.
 module "bastion" {
-  source = "github.com/codeforamerica/tofu-modules-aws-ssm-bastion?ref=ssm-bastion"
+  source = "github.com/codeforamerica/tofu-modules-aws-ssm-bastion?ref=1.0.0"
 
   project                 = "illinois-getchildcare"
   environment             = "prod"

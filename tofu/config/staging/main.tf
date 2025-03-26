@@ -33,7 +33,7 @@ module "logging" {
 
   project     = "illinois-getchildcare"
   environment = "staging"
-}.
+}
 
 # Create a VPC with public and private subnets. Since this is a staging
 # environment, we'll use a single NAT gateway to reduce costs.
@@ -59,8 +59,9 @@ module "vpc" {
   }
 }
 
+# Create a bastion host for access to the VPC over SSM.
 module "bastion" {
-  source = "github.com/codeforamerica/tofu-modules-aws-ssm-bastion?ref=ssm-bastion"
+  source = "github.com/codeforamerica/tofu-modules-aws-ssm-bastion?ref=1.0.0"
 
   project                 = "illinois-getchildcare"
   environment             = "staging"
@@ -68,10 +69,6 @@ module "bastion" {
   private_subnet_ids      = module.vpc.private_subnets
   vpc_id                  = module.vpc.vpc_id
   kms_key_recovery_period = 7
-
-  tags = {
-    application = "il-gcc-bastion-staging"
-  }
 }
 
 module "microservice" {

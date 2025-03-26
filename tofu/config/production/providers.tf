@@ -6,6 +6,11 @@ provider "aws" {
       project     = "illinois-getchildcare"
       environment = "production"
       tofu        = "true"
+      application = "illinois-getchildcare-production"
     }
+  }
+
+  ignore_tags {
+    keys = ["awsApplication"]
   }
 }
