@@ -8,7 +8,7 @@ terraform {
 }
 
 module "backend" {
-  source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.1.1"
 
   project     = "illinois-getchildcare"
   environment = "staging"
@@ -17,7 +17,7 @@ module "backend" {
 # Create hosted zones for DNS.
 module "hosted_zones" {
   source  = "terraform-aws-modules/route53/aws//modules/zones"
-  version = "~> 3.1"
+  version = "~> 5.0"
 
   zones = {
     document_transfer = {
@@ -29,7 +29,7 @@ module "hosted_zones" {
 
 # Create an S3 bucket and KMS key for logging.
 module "logging" {
-  source = "github.com/codeforamerica/tofu-modules-aws-logging?ref=1.2.1"
+  source = "github.com/codeforamerica/tofu-modules-aws-logging?ref=2.1.0"
 
   project     = "illinois-getchildcare"
   environment = "staging"
