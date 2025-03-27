@@ -43,12 +43,15 @@ module "application" {
   environment                  = "qa"
   logging_key                  = module.logging.kms_key_arn
   vpc_id                       = module.vpc.vpc_id
+  private_subnets              = module.vpc.private_subnets
+  public_subnets               = module.vpc.public_subnets
   database_apply_immediately   = true
   database_skip_final_snapshot = true
   database_capacity_min        = 2
   database_capacity_max        = 2
   secret_recovery_period       = 7
   key_recovery_period          = 7
-  domain                       = "qa.getchildcareil.org"
+  domain                       = "getchildcareil.org"
+  subdomain                    = "qa"
   force_delete                 = true
 }
