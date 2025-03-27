@@ -58,12 +58,6 @@ variable "public_subnets" {
   type = list(string)
 }
 
-variable "ingress_cidrs" {
-  description = "The CIDR blocks to allow ingress from. The current VPC is allowed by default."
-  type        = list(string)
-  default     = []
-}
-
 variable "key_recovery_period" {
   type        = number
   default     = 30
@@ -95,12 +89,6 @@ variable "secret_recovery_period" {
     condition     = var.secret_recovery_period == 0 || var.secret_recovery_period > 6 && var.secret_recovery_period < 31
     error_message = "Recovery period must be between 7 and 30."
   }
-}
-
-variable "service_environment" {
-  description = "The environment the service should operate in, if different from environment."
-  type        = string
-  default     = ""
 }
 
 variable "vpc_id" {
