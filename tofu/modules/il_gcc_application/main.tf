@@ -89,8 +89,8 @@ module "database" {
   logging_key_arn = var.logging_key
   secrets_key_arn = module.secrets.kms_key_arn
   vpc_id          = var.vpc_id
-  subnets         = data.aws_subnets.private.ids
-  ingress_cidrs   = sort([for s in data.aws_subnet.private : s.cidr_block])
+  subnets         = var.private_subnets
+  ingress_cidrs   = ["10.0.28.0/22"]
   force_delete    = var.force_delete
 
   min_capacity        = var.database_capacity_min
@@ -109,7 +109,7 @@ module "database" {
 
 # Deploy the IL-GCC Application to a Fargate cluster.
 module "service" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service-il-gcc?ref=v1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
@@ -117,17 +117,19 @@ module "service" {
   service                = "app"
   service_short          = "app"
   domain                 = var.domain
+  subdomain              = var.subdomain
   vpc_id                 = var.vpc_id
-  private_subnets        = data.aws_subnets.private.ids
-  public_subnets         = data.aws_subnets.public.ids
+  private_subnets        = var.private_subnets
+  public_subnets         = var.public_subnets
   logging_key_id         = var.logging_key
   container_port         = 8080
   force_delete           = var.force_delete
+  create_endpoint        = true
   image_tags_mutable     = true
   enable_execute_command = true
   public                 = var.public
 
-  ingress_cidrs = var.ingress_cidrs
+  ingress_cidrs = ["0.0.0.0/0"]
 
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
@@ -151,7 +153,7 @@ module "worker" {
   service                = "worker"
   service_short          = "worker"
   vpc_id                 = var.vpc_id
-  private_subnets        = data.aws_subnets.private.ids
+  private_subnets        = var.private_subnets
   logging_key_id         = var.logging_key
   force_delete           = var.force_delete
   enable_execute_command = true

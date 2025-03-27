@@ -33,6 +33,11 @@ variable "domain" {
   type        = string
 }
 
+variable "subdomain" {
+  description = "An optional subdomain which will be appended to the beginning of the domain name for the service."
+  type        = string
+}
+
 variable "environment" {
   description = "The environment in which the service is being deployed."
   type        = string
@@ -43,6 +48,14 @@ variable "force_delete" {
   type        = bool
   description = "Force deletion of resources. If changing to true, be sure to apply before destroying."
   default     = false
+}
+
+variable "private_subnets" {
+  type = list(string)
+}
+
+variable "public_subnets" {
+  type = list(string)
 }
 
 variable "ingress_cidrs" {
@@ -94,3 +107,4 @@ variable "vpc_id" {
   description = "The ID of the VPC in which the service is deployed."
   type        = string
 }
+

@@ -51,7 +51,7 @@ module "application" {
   database_capacity_max        = 2
   secret_recovery_period       = 7
   key_recovery_period          = 7
-  domain                       = "getchildcareil.org"
-  subdomain                    = "qa"
+  domain                       = "qa.getchildcareil.org"
+  subdomain                    = ""
   force_delete                 = true
 }
