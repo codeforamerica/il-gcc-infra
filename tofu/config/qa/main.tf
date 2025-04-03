@@ -1,11 +1,11 @@
-# terraform {
-#   backend "s3" {
-#     bucket         = "illinois-getchildcare-qa-tfstate"
-#     key            = "backend.tfstate"
-#     region         = "us-east-1"
-#     dynamodb_table = "qa.tfstate"
-#   }
-# }
+terraform {
+  backend "s3" {
+    bucket         = "illinois-getchildcare-qa-tfstate"
+    key            = "backend.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "qa.tfstate"
+  }
+}
 
 module "backend" {
   source = "github.com/codeforamerica/tofu-modules-aws-backend?ref=1.1.1"

@@ -129,7 +129,7 @@ module "service" {
   enable_execute_command = true
   public                 = var.public
 
-  ingress_cidrs = ["0.0.0.0/0"]
+#   ingress_cidrs = ["0.0.0.0/0"]
 
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
