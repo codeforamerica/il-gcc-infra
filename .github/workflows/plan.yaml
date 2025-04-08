@@ -36,7 +36,6 @@ on:
         required: true
         type: choice
         options:
-          - qa
           - staging
           - production
 
@@ -65,7 +64,7 @@ jobs:
 
       - name: Initialize OpenTofu
         working-directory: ./tofu/config/${{ env.CONFIG }}
-        run: tofu init -upgrade
+        run: tofu init
 
       - name: Plan changes
         id: plan
