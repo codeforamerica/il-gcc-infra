@@ -40,13 +40,12 @@ on:
           - production
 
 env:
-  ENVIRONMENT: ${{ inputs.environment || github.event.client_payload.environment }}
   CONFIG: ${{ inputs.config || github.event.client_payload.config }}
 
 jobs:
   plan:
     runs-on: ubuntu-latest
-    environment: ${{ env.ENVIRONMENT }}
+    environment: ${{ inputs.environment || github.event.client_payload.environment }}
     outputs:
       plan: ${{ steps.plan.outputs.stdout }}
     steps:
