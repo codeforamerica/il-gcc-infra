@@ -2,7 +2,8 @@ name: Plan the deployment pipeline
 
 on:
   repository_dispatch:
-    types: [ plan ]
+    types:
+      - plan
   workflow_call:
     inputs:
       environment:
