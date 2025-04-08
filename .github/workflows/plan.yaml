@@ -64,7 +64,7 @@ jobs:
 
       - name: Initialize OpenTofu
         working-directory: ./tofu/config/${{ env.CONFIG }}
-        run: tofu init
+        run: tofu init -upgrade
 
       - name: Plan changes
         id: plan
