@@ -1,6 +1,9 @@
 name: Deploy pipeline
 
 on:
+  repository_dispatch:
+    types:
+      - deploy
   workflow_dispatch:
     inputs:
       environment:
@@ -17,11 +20,13 @@ on:
           - staging
           - production
           - qa
+env:
+  CONFIG: ${{ inputs.config || github.event.client_payload.config }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
+    environment: ${{ inputs.environment || github.event.client_payload.environment }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,7 +42,7 @@ jobs:
         uses: opentofu/setup-opentofu@v1
 
       - name: Initialize OpenTofu
-        working-directory: ./tofu/config/${{ inputs.config }}
+        working-directory: ./tofu/config/${{ env.CONFIG }}
         run: tofu init
 
       # TODO: Add a manual approval step here. For now, we'll use GitHub
