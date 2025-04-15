@@ -1,6 +1,9 @@
 name: Plan the deployment pipeline
 
 on:
+  repository_dispatch:
+    types:
+      - plan
   workflow_call:
     inputs:
       environment:
@@ -37,10 +40,13 @@ on:
           - staging
           - production
 
+env:
+  CONFIG: ${{ inputs.config || github.event.client_payload.config }}
+
 jobs:
   plan:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.environment || github.event.client_payload.environment }}
     outputs:
       plan: ${{ steps.plan.outputs.stdout }}
     steps:
@@ -58,12 +64,12 @@ jobs:
         uses: opentofu/setup-opentofu@v1
 
       - name: Initialize OpenTofu
-        working-directory: ./tofu/config/${{ inputs.config }}
+        working-directory: ./tofu/config/${{ env.CONFIG }}
         run: tofu init
 
       - name: Plan changes
         id: plan
-        working-directory: ./tofu/config/${{ inputs.config }}
+        working-directory: ./tofu/config/${{ env.CONFIG }}
         run: tofu plan -no-color
 
       - name: Display plan
