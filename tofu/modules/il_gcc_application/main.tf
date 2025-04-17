@@ -135,7 +135,7 @@ module "database" {
 
 # Deploy the IL-GCC Application to a Fargate cluster.
 module "service" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=health-check-path"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.1.0"
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
   environment            = var.environment
@@ -189,7 +189,7 @@ module "service" {
 }
 
 module "worker" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.1.0"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"

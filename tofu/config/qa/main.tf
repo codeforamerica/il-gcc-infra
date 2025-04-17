@@ -37,6 +37,17 @@ module "vpc" {
   public_subnets  = ["10.0.28.0/26", "10.0.28.64/26", "10.0.28.128/26"]
 }
 
+# Create a bastion host for access to the VPC over SSM.
+module "bastion" {
+  source = "github.com/codeforamerica/tofu-modules-aws-ssm-bastion?ref=1.0.0"
+
+  project                 = "illinois-getchildcare"
+  environment             = "qa"
+  private_subnet_ids      = module.vpc.private_subnets
+  vpc_id                  = module.vpc.vpc_id
+  kms_key_recovery_period = 7
+}
+
 module "application" {
   source = "../../modules/il_gcc_application"
 

@@ -1,3 +1,8 @@
+output "bastion_instance_id" {
+  description = "The ID of the bastion host instance."
+  value       = module.bastion.instance_id
+}
+
 # Display commands to push the Docker image to ECR.
 output "application_docker_push" {
   value = module.application.docker_push

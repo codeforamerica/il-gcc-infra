@@ -36,3 +36,6 @@ terraform.rc
 
 # Ignore IntelliJ Idea Configuration files
 .idea/
+
+# Ignore pem files
+*.pem
