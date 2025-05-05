@@ -33,11 +33,6 @@ variable "domain" {
   type        = string
 }
 
-variable "subdomain" {
-  description = "An optional subdomain which will be appended to the beginning of the domain name for the service."
-  type        = string
-}
-
 variable "environment" {
   description = "The environment in which the service is being deployed."
   type        = string
@@ -48,14 +43,6 @@ variable "force_delete" {
   type        = bool
   description = "Force deletion of resources. If changing to true, be sure to apply before destroying."
   default     = false
-}
-
-variable "private_subnets" {
-  type = list(string)
-}
-
-variable "public_subnets" {
-  type = list(string)
 }
 
 variable "key_recovery_period" {
@@ -74,10 +61,18 @@ variable "logging_key" {
   type        = string
 }
 
+variable "private_subnets" {
+  type = list(string)
+}
+
 variable "public" {
   type        = bool
   description = "Launch the service so that it is available on the public Internet."
   default     = true
+}
+
+variable "public_subnets" {
+  type = list(string)
 }
 
 variable "secret_recovery_period" {
@@ -89,6 +84,11 @@ variable "secret_recovery_period" {
     condition     = var.secret_recovery_period == 0 || var.secret_recovery_period > 6 && var.secret_recovery_period < 31
     error_message = "Recovery period must be between 7 and 30."
   }
+}
+
+variable "subdomain" {
+  description = "An optional subdomain which will be appended to the beginning of the domain name for the service."
+  type        = string
 }
 
 variable "vpc_id" {

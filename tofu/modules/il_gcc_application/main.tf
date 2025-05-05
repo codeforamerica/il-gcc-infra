@@ -9,10 +9,6 @@ resource "aws_ssm_parameter" "version" {
   }
 }
 
-data "aws_ssm_parameter" "version" {
-  name = aws_ssm_parameter.version.name
-}
-
 module "secrets" {
   source = "github.com/codeforamerica/tofu-modules-aws-secrets?ref=1.0.0"
 
@@ -110,7 +106,7 @@ module "secrets" {
 }
 
 module "database" {
-  source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.1.0"
 
   logging_key_arn = var.logging_key
   secrets_key_arn = module.secrets.kms_key_arn
@@ -135,7 +131,7 @@ module "database" {
 
 # Deploy the IL-GCC Application to a Fargate cluster.
 module "service" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.1.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.0"
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
   environment            = var.environment
@@ -151,7 +147,7 @@ module "service" {
   force_delete           = var.force_delete
   create_endpoint        = true
   image_tags_mutable     = true
-  image_tag              = data.aws_ssm_parameter.version.insecure_value
+  aws_ssm_parameter      = aws_ssm_parameter.version.name
   enable_execute_command = true
   public                 = var.public
   health_check_path       = "/actuator/health"
@@ -189,7 +185,7 @@ module "service" {
 }
 
 module "worker" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.1.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.0"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
