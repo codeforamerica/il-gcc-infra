@@ -16,6 +16,12 @@ variable "database_capacity_min" {
   default     = 2
 }
 
+variable "database_instance_count" {
+  description = "The number of instances in the database cluster."
+  type        = number
+  default     = 1
+}
+
 variable "database_skip_final_snapshot" {
   type        = bool
   description = "Whether to skip the final snapshot when destroying the database cluster."

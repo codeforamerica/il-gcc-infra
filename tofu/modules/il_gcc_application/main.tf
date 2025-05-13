@@ -98,6 +98,7 @@ module "secrets" {
         convert_uploads_to_pdf      = ""
         enable_dts_integration      = ""
         spring_profiles_active      = ""
+        enable_multiple_providers   = ""
       })
     }
   }
@@ -106,7 +107,7 @@ module "secrets" {
 }
 
 module "database" {
-  source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.1.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.3.0"
 
   logging_key_arn = var.logging_key
   secrets_key_arn = module.secrets.kms_key_arn
@@ -121,6 +122,7 @@ module "database" {
   apply_immediately   = var.database_apply_immediately
   key_recovery_period = var.key_recovery_period
   snapshot_identifier = var.database_snapshot
+  instances     = var.database_instance_count
 
   project     = "illinois-getchildcare"
   environment = var.environment
@@ -131,7 +133,7 @@ module "database" {
 
 # Deploy the IL-GCC Application to a Fargate cluster.
 module "service" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.1"
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
   environment            = var.environment
@@ -147,7 +149,7 @@ module "service" {
   force_delete           = var.force_delete
   create_endpoint        = true
   image_tags_mutable     = true
-  aws_ssm_parameter      = aws_ssm_parameter.version.name
+  version_parameter      = aws_ssm_parameter.version.name
   enable_execute_command = true
   public                 = var.public
   health_check_path       = "/actuator/health"
@@ -185,7 +187,7 @@ module "service" {
 }
 
 module "worker" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.1"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
@@ -202,7 +204,7 @@ module "worker" {
   create_repository      = false
   container_command      = ["./script/worker", "run"]
   image_url              = module.service.repository_url
-  image_tag              = data.aws_ssm_parameter.version.insecure_value
+  version_parameter      = aws_ssm_parameter.version.name
   repository_arn         = module.service.repository_arn
 
   environment_variables = {
