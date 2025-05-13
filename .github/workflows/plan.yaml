@@ -39,6 +39,7 @@ on:
         options:
           - staging
           - production
+          - qa
 
 env:
   CONFIG: ${{ inputs.config || github.event.client_payload.config }}
