@@ -16,6 +16,7 @@ on:
         options:
           - staging
           - production
+          - qa
 
 jobs:
   deploy:
