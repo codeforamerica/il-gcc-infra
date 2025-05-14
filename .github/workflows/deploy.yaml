@@ -48,5 +48,5 @@ jobs:
       # TODO: Add a manual approval step here. For now, we'll use GitHub
       # Actions' environment protection feature for sensitive environments.
       - name: Apply changes
-        working-directory: ./tofu/config/${{ inputs.config }}
+        working-directory: ./tofu/config/${{ env.CONFIG }}
         run: tofu apply --auto-approve
