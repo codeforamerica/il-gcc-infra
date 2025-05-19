@@ -69,6 +69,13 @@ module "secrets" {
         environment                = ""
       })
     },
+    "sentry" = {
+      description     = "Sentry configuration for IL-GCC QA."
+      recovery_window = var.secret_recovery_period
+      start_value = jsonencode({
+        dsn                        = ""
+      })
+    },
     "jobrunr" = {
       description     = "JobRunr configuration for the IL-GCC application."
       recovery_window = var.secret_recovery_period
@@ -173,6 +180,7 @@ module "service" {
       DATADOG_RUM_APPLICATION_ID         = "${module.secrets.secrets["datadog"].secret_arn}:rum_app_id"
       DATADOG_RUM_CLIENT_TOKEN           = "${module.secrets.secrets["datadog"].secret_arn}:rum_client_token"
       DATADOG_ENVIRONMENT                = "${module.secrets.secrets["datadog"].secret_arn}:environment"
+      SENTRY_DSN                         = "${module.secrets.secrets["sentry"].secret_arn}:dsn"
       JOBRUNR_DASHBOARD_ENABLED          = "${module.secrets.secrets["jobrunr"].secret_arn}:dashboard_enabled"
       ENABLE_BACKGROUND_JOBS_FLAG        = "${module.secrets.secrets["jobrunr"].secret_arn}:enable_background_jobs"
       WAIT_FOR_PROVIDER_RESPONSE         = "${module.secrets.secrets["il-gcc"].secret_arn}:wait_for_provider_response"
