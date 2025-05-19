@@ -106,6 +106,8 @@ module "secrets" {
         enable_dts_integration      = ""
         spring_profiles_active      = ""
         enable_multiple_providers   = ""
+        active_caseload_codes       = ""
+        pending_caseload_codes      = ""
       })
     }
   }
@@ -187,6 +189,8 @@ module "service" {
       ALLOW_PROVIDER_REGISTRATION        = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_provider_registration"
       CONVERT_UPLOADS_TO_PDF             = "${module.secrets.secrets["il-gcc"].secret_arn}:convert_uploads_to_pdf"
       SPRING_PROFILES_ACTIVE             = "${module.secrets.secrets["il-gcc"].secret_arn}:spring_profiles_active"
+      ACTIVE_CASELOAD_CODES              = "${module.secrets.secrets["il-gcc"].secret_arn}:active_caseload_codes"
+      PENDING_CASELOAD_CODES             = "${module.secrets.secrets["il-gcc"].secret_arn}:pending_caseload_codes"
       AWS_BUCKET                         = "${module.secrets.secrets["aws"].secret_arn}:aws_bucket"
       AWS_REGION                         = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
       AWS_SECRET_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
