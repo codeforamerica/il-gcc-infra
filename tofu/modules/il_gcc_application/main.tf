@@ -199,8 +199,6 @@ module "service" {
       CCMS_TRANSACTION_DELAY_MINUTES     = "${module.secrets.secrets["ccms"].secret_arn}:transaction_delay"
       ENABLE_CCMS_INTEGRATION            = "${module.secrets.secrets["ccms"].secret_arn}:enable_integration"
       CCMS_OFFLINE_TIME_RANGES           = "${module.secrets.secrets["ccms"].secret_arn}:ccms_offline_time_ranges"
-      WAIT_FOR_PROVIDER_RESPONSE         = "${module.secrets.secrets["il-gcc"].secret_arn}:wait_for_provider_response"
-      ALLOW_PROVIDER_REGISTRATION        = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_provider_registration"
       CONVERT_UPLOADS_TO_PDF             = "${module.secrets.secrets["il-gcc"].secret_arn}:convert_uploads_to_pdf"
       CONVERTED_FILE_SUFFIX              = "${module.secrets.secrets["il-gcc"].secret_arn}:converted_file_suffix"
       SPRING_PROFILES_ACTIVE             = "${module.secrets.secrets["il-gcc"].secret_arn}:spring_profiles_active"
