@@ -31,8 +31,9 @@ module "secrets" {
       description     = "Sendgrid credentials for the IL-GCC application."
       recovery_window = var.secret_recovery_period
       start_value = jsonencode({
-        sendgrid_api_key    = ""
-        sendgrid_public_key = ""
+        sendgrid_api_key                  = ""
+        sendgrid_public_key               = ""
+        sendgrid_email_validation_api_key = ""
       })
     },
     "smarty" = {
@@ -88,26 +89,31 @@ module "secrets" {
       description     = "CCMS credentials for the IL-GCC application."
       recovery_window = var.secret_recovery_period
       start_value = jsonencode({
-        ocp_apim_key       = ""
-        api_base_url       = ""
-        api_username       = ""
-        api_password       = ""
-        transaction_delay  = ""
-        enable_integration = ""
+        ocp_apim_key              = ""
+        api_base_url              = ""
+        api_username              = ""
+        api_password              = ""
+        transaction_delay         = ""
+        enable_integration        = ""
+        ccms_offline_time_ranges  = ""
       })
     },
     "il-gcc" = {
       description     = "IL-GCC application configuration."
       recovery_window = var.secret_recovery_period
       start_value = jsonencode({
-        wait_for_provider_response  = ""
-        allow_provider_registration = ""
-        convert_uploads_to_pdf      = ""
-        enable_dts_integration      = ""
-        spring_profiles_active      = ""
-        enable_multiple_providers   = ""
-        active_caseload_codes       = ""
-        pending_caseload_codes      = ""
+        spring_profiles_active            = ""
+        convert_uploads_to_pdf            = ""
+        converted_file_suffix             = ""
+        active_caseload_codes             = ""
+        pending_caseload_codes            = ""
+        enable_address_validation         = ""
+        enable_emails                     = ""
+        enable_multiple_providers         = ""
+        enable_resource_org_email         = ""
+        enable_sendgrid_email_validation  = ""
+        enable_dts_integration            = ""
+        resource_org_emails               = ""
       })
     }
   }
@@ -172,6 +178,7 @@ module "service" {
       DATABASE_USER                      = "${module.database.secret_arn}:username"
       SENDGRID_API_KEY                   = "${module.secrets.secrets["sendgrid"].secret_arn}:sendgrid_api_key"
       SENDGRID_PUBLIC_KEY                = "${module.secrets.secrets["sendgrid"].secret_arn}:sendgrid_public_key"
+      SENDGRID_EMAIL_VALIDATION_API_KEY  = "${module.secrets.secrets["sendgrid"].secret_arn}:sendgrid_email_validation_api_key"
       SMARTY_AUTH_ID                     = "${module.secrets.secrets["smarty"].secret_arn}:auth_id"
       SMARTY_AUTH_TOKEN                  = "${module.secrets.secrets["smarty"].secret_arn}:auth_token"
       MIXPANEL_API_KEY                   = "${module.secrets.secrets["mixpanel"].secret_arn}:api_key"
@@ -191,12 +198,21 @@ module "service" {
       CCMS_API_PASSWORD                  = "${module.secrets.secrets["ccms"].secret_arn}:api_password"
       CCMS_TRANSACTION_DELAY_MINUTES     = "${module.secrets.secrets["ccms"].secret_arn}:transaction_delay"
       ENABLE_CCMS_INTEGRATION            = "${module.secrets.secrets["ccms"].secret_arn}:enable_integration"
+      CCMS_OFFLINE_TIME_RANGES           = "${module.secrets.secrets["ccms"].secret_arn}:ccms_offline_time_ranges"
       WAIT_FOR_PROVIDER_RESPONSE         = "${module.secrets.secrets["il-gcc"].secret_arn}:wait_for_provider_response"
       ALLOW_PROVIDER_REGISTRATION        = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_provider_registration"
       CONVERT_UPLOADS_TO_PDF             = "${module.secrets.secrets["il-gcc"].secret_arn}:convert_uploads_to_pdf"
+      CONVERTED_FILE_SUFFIX              = "${module.secrets.secrets["il-gcc"].secret_arn}:converted_file_suffix"
       SPRING_PROFILES_ACTIVE             = "${module.secrets.secrets["il-gcc"].secret_arn}:spring_profiles_active"
       ACTIVE_CASELOAD_CODES              = "${module.secrets.secrets["il-gcc"].secret_arn}:active_caseload_codes"
       PENDING_CASELOAD_CODES             = "${module.secrets.secrets["il-gcc"].secret_arn}:pending_caseload_codes"
+      ADDRESS_VALIDATION_ENABLED         = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_address_validation"
+      ENABLE_EMAILS_FLAG                 = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_emails"
+      ENABLE_MULTIPLE_PROVIDERS          = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_multiple_providers"
+      ENABLE_RESOURCE_ORG_EMAIL          = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_resource_org_email"
+      ENABLE_SENDGRID_EMAIL_VALIDATION   = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_sendgrid_email_validation"
+      RESOURCE_ORG_EMAILS                = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
+
       AWS_BUCKET                         = "${module.secrets.secrets["aws"].secret_arn}:aws_bucket"
       AWS_REGION                         = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
       AWS_SECRET_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
