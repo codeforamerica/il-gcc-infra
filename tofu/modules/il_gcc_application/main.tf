@@ -210,7 +210,6 @@ module "service" {
       ENABLE_RESOURCE_ORG_EMAIL          = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_resource_org_email"
       ENABLE_SENDGRID_EMAIL_VALIDATION   = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_sendgrid_email_validation"
       RESOURCE_ORG_EMAILS                = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
-
       AWS_BUCKET                         = "${module.secrets.secrets["aws"].secret_arn}:aws_bucket"
       AWS_REGION                         = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
       AWS_SECRET_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
