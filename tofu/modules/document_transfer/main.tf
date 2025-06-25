@@ -26,7 +26,7 @@ module "secrets" {
 }
 
 module "database" {
-  source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.3.0"
 
   logging_key_arn = var.logging_key
   secrets_key_arn = module.secrets.kms_key_arn
@@ -34,6 +34,10 @@ module "database" {
   subnets         = data.aws_subnets.private.ids
   ingress_cidrs   = sort([for s in data.aws_subnet.private : s.cidr_block])
   force_delete    = var.force_delete
+  project_short          = "il-gcc"
+  service_short          = "doc-trans"
+  backup_retention_period = 7
+  instances = 1
 
   min_capacity        = var.database_capacity_min
   max_capacity        = var.database_capacity_max
@@ -51,7 +55,7 @@ module "database" {
 
 # Deploy the Document Transfer service to a Fargate cluster.
 module "service" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.1"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
@@ -68,6 +72,7 @@ module "service" {
   image_tags_mutable     = true
   enable_execute_command = true
   public                 = var.public
+  create_version_parameter = true
 
   ingress_cidrs = var.ingress_cidrs
 
@@ -92,7 +97,7 @@ module "service" {
 
 # TODO: Onedrive secrets
 module "worker" {
-  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.0.0"
+  source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.1"
 
   project                = "illinois-getchildcare"
   project_short          = "il-gcc"
