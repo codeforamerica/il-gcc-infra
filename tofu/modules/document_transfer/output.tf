@@ -21,3 +21,7 @@ output "repository_arn" {
 output "repository_url" {
   value = module.service.repository_url
 }
+
+output "version_parameter" {
+  value = module.service.version_parameter
+}

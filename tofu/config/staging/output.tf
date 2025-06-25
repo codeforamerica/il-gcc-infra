@@ -27,3 +27,7 @@ output "repository_arn" {
 output "repository_url" {
   value = module.microservice.repository_url
 }
+
+output "version_parameter" {
+  value = module.microservice.version_parameter
+}

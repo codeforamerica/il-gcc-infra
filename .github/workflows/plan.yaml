@@ -71,7 +71,7 @@ jobs:
       - name: Plan changes
         id: plan
         working-directory: ./tofu/config/${{ env.CONFIG }}
-        run: tofu plan -no-color
+        run: tofu plan -concise -no-color
 
       - name: Display plan
         run: echo '${{ steps.plan.outputs.stdout }}'
