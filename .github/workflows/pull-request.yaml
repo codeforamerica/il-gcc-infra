@@ -9,7 +9,7 @@ jobs:
     with:
       # TODO: Get the environments to plan on from the diff.
       environment: staging
-      config: staging
+      config: qa
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,7 +31,7 @@ jobs:
             const botComment = comments.find(comment => {
               return comment.user.type === 'Bot' && comment.body.includes('## Plan output')
             })
-            
+
             // Prepare the format of the comment.
             const output = `## Plan output\n\n\`\`\`\n${{ needs.plan.outputs.plan }}\n\`\`\``
 

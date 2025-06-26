@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   find-modules:
     runs-on: ubuntu-latest
@@ -46,7 +50,7 @@ jobs:
                 return !!diff.find(file => new RegExp(`^${module}/.+`).test(file))
               }
             )
-            
+
             core.setOutput('modules', modifiedModules)
 
       - name: Show modified modules
@@ -101,17 +105,16 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
       - name: Run Trivy vulnarability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.30.0
         with:
           scan-type: config
           ignore-unfixed: true
           skip-dirs: '**/*/.terraform'
           exit-code: 1
           format: sarif
-          output: 'trivy-results.sarif'
-
-      - name: Parse SARIF file
+          output: trivy-results.sarif
+      - name: Upload SARIF result
         if: always()
-        uses: Ayrx/sarif_to_github_annotations@v0.2.2
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: trivy-results.sarif

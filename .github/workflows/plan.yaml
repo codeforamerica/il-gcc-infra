@@ -41,6 +41,9 @@ on:
           - production
           - qa
 
+permissions:
+  contents: read
+
 env:
   CONFIG: ${{ inputs.config || github.event.client_payload.config }}
 
@@ -53,25 +56,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
       - name: Setup OpenTofu
         uses: opentofu/setup-opentofu@v1
-
+        with:
+          tofu_version: 1.9
+      - name: Display OpenTofu version
+        run: tofu version
       - name: Initialize OpenTofu
         working-directory: ./tofu/config/${{ env.CONFIG }}
         run: tofu init
-
       - name: Plan changes
         id: plan
         working-directory: ./tofu/config/${{ env.CONFIG }}
-        run: tofu plan -concise -no-color
-
+        run: tofu plan -no-color -concise
       - name: Display plan
-        run: echo '${{ steps.plan.outputs.stdout }}'
+        uses: imesense/gha-echo-action@v0.2
+        with:
+          input-string: ${{ steps.plan.outputs.stdout }}
