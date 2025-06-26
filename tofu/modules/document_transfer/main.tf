@@ -28,16 +28,16 @@ module "secrets" {
 module "database" {
   source = "github.com/codeforamerica/tofu-modules-aws-serverless-database?ref=1.3.0"
 
-  logging_key_arn = var.logging_key
-  secrets_key_arn = module.secrets.kms_key_arn
-  vpc_id          = var.vpc_id
-  subnets         = data.aws_subnets.private.ids
-  ingress_cidrs   = sort([for s in data.aws_subnet.private : s.cidr_block])
-  force_delete    = var.force_delete
-  project_short          = "il-gcc"
-  service_short          = "doc-trans"
+  logging_key_arn         = var.logging_key
+  secrets_key_arn         = module.secrets.kms_key_arn
+  vpc_id                  = var.vpc_id
+  subnets                 = data.aws_subnets.private.ids
+  ingress_cidrs           = sort([for s in data.aws_subnet.private : s.cidr_block])
+  force_delete            = var.force_delete
+  project_short           = "il-gcc"
+  service_short           = "doc-trans"
   backup_retention_period = 7
-  instances = 1
+  instances               = 1
 
   min_capacity        = var.database_capacity_min
   max_capacity        = var.database_capacity_max
@@ -57,21 +57,21 @@ module "database" {
 module "service" {
   source = "github.com/codeforamerica/tofu-modules-aws-fargate-service?ref=1.2.1"
 
-  project                = "illinois-getchildcare"
-  project_short          = "il-gcc"
-  environment            = var.environment
-  service                = "document-transfer"
-  service_short          = "doc-trans"
-  domain                 = var.domain
-  vpc_id                 = var.vpc_id
-  private_subnets        = data.aws_subnets.private.ids
-  public_subnets         = data.aws_subnets.public.ids
-  logging_key_id         = var.logging_key
-  container_port         = 3000
-  force_delete           = var.force_delete
-  image_tags_mutable     = true
-  enable_execute_command = true
-  public                 = var.public
+  project                  = "illinois-getchildcare"
+  project_short            = "il-gcc"
+  environment              = var.environment
+  service                  = "document-transfer"
+  service_short            = "doc-trans"
+  domain                   = var.domain
+  vpc_id                   = var.vpc_id
+  private_subnets          = data.aws_subnets.private.ids
+  public_subnets           = data.aws_subnets.public.ids
+  logging_key_id           = var.logging_key
+  container_port           = 3000
+  force_delete             = var.force_delete
+  image_tags_mutable       = true
+  enable_execute_command   = true
+  public                   = var.public
   create_version_parameter = true
 
   ingress_cidrs = var.ingress_cidrs
