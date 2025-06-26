@@ -170,6 +170,7 @@ module "service" {
   enable_execute_command = true
   public                 = var.public
   health_check_path      = "/actuator/health"
+  desired_containers     = 2
 
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
