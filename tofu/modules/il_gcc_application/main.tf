@@ -334,6 +334,14 @@ module "dashboard" {
   public                 = true
   health_check_path      = "/dashboard/overview"
 
+  oidc_settings = {
+    client_secret_arn      = module.secrets.secrets["oidc"].secret_arn
+    authorization_endpoint = "https://codeforamerica.okta.com/oauth2/v1/authorize"
+    issuer                 = "https://codeforamerica.okta.com"
+    token_endpoint         = "https://codeforamerica.okta.com/oauth2/v1/token"
+    user_info_endpoint     = "https://codeforamerica.okta.com/oauth2/v1/userinfo"
+  }
+
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
     AWS_BUCKET    = "get-child-care-illinois-${var.environment}"
