@@ -23,8 +23,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "get_child_care_il
     bucket_key_enabled = true
 
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.get_child_care_illinois.arn
-      sse_algorithm     = "aws:kms"
+      sse_algorithm = "AES256"
     }
   }
 }
@@ -39,8 +38,8 @@ resource "aws_s3_bucket_versioning" "get_child_care_illinois" {
 
 resource "aws_s3_bucket_logging" "get_child_care_illinois" {
   bucket        = aws_s3_bucket.get_child_care_illinois.id
-  target_bucket = aws_s3_bucket.get_child_care_illinois.id
-  target_prefix = "${local.aws_logs_path}/s3accesslogs/${aws_s3_bucket.get_child_care_illinois.id}"
+  target_bucket = "illinois-getchildcare-${var.environment}-logs"
+  target_prefix = "s3-bucket-access-logs/get-child-care-illinois-${var.environment}/"
 }
 
 resource "aws_s3_bucket_policy" "get_child_care_illinois" {
