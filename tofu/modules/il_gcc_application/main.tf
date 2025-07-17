@@ -308,6 +308,8 @@ module "dashboard" {
   environment            = var.environment
   service                = "dashboard"
   service_short          = "dshbd"
+  domain                 = var.domain
+  subdomain              = "dashboard"
   vpc_id                 = var.vpc_id
   private_subnets        = var.private_subnets
   logging_key_id         = var.logging_key
@@ -315,7 +317,7 @@ module "dashboard" {
   container_port         = 8000
   memory                 = 2048
   enable_execute_command = true
-  create_endpoint        = false
+  create_endpoint        = true
   create_repository      = false
   container_command      = ["./scripts/jobrunr_dashboard_launcher.sh"]
   image_url              = module.service.repository_url
