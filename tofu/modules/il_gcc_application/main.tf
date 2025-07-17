@@ -176,6 +176,7 @@ module "service" {
 
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
+    AWS_BUCKET    = "get-child-care-illinois-${var.environment}"
   }
 
   environment_secrets = {
@@ -218,7 +219,6 @@ module "service" {
     ENABLE_FASTER_APPLICATION_EXPIRY   = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry"
     ALLOW_PDF_MODIFICATION             = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
     RESOURCE_ORG_EMAILS                = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
-    AWS_BUCKET                         = "${module.secrets.secrets["aws"].secret_arn}:aws_bucket"
     AWS_REGION                         = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
     AWS_SECRET_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
     AWS_ACCESS_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_access_key"
@@ -291,7 +291,6 @@ module "worker" {
     ENABLE_FASTER_APPLICATION_EXPIRY   = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry"
     ALLOW_PDF_MODIFICATION             = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
     RESOURCE_ORG_EMAILS                = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
-    AWS_BUCKET                         = "${module.secrets.secrets["aws"].secret_arn}:aws_bucket"
     AWS_REGION                         = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
     AWS_SECRET_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
     AWS_ACCESS_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_access_key"
@@ -323,7 +322,7 @@ module "dashboard" {
   version_parameter      = aws_ssm_parameter.version.name
   repository_arn         = module.service.repository_arn
   public                 = true
-  
+
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
     AWS_BUCKET    = "get-child-care-illinois-${var.environment}"
@@ -369,11 +368,10 @@ module "dashboard" {
     ENABLE_FASTER_APPLICATION_EXPIRY   = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry"
     ALLOW_PDF_MODIFICATION             = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
     RESOURCE_ORG_EMAILS                = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
-    AWS_BUCKET                         = "${module.secrets.secrets["aws"].secret_arn}:aws_bucket"
     AWS_REGION                         = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
     AWS_SECRET_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
     AWS_ACCESS_KEY                     = "${module.secrets.secrets["aws"].secret_arn}:aws_access_key"
   }
 
-  tags = { service = "application-worker" }
+  tags = { service = "application-dashboard" }
 }
