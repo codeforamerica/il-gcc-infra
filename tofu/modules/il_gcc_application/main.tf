@@ -115,6 +115,7 @@ module "secrets" {
         enable_sendgrid_email_validation         = ""
         enable_faster_application_expiry         = ""
         enable_faster_application_expiry_minutes = ""
+        no_provider_response_delay               = ""
         allow_pdf_modification                   = ""
         resource_org_emails                      = ""
       })
@@ -226,6 +227,7 @@ module "service" {
     ENABLE_SENDGRID_EMAIL_VALIDATION         = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_sendgrid_email_validation"
     ENABLE_FASTER_APPLICATION_EXPIRY         = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry"
     ENABLE_FASTER_APPLICATION_EXPIRY_MINUTES = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry_minutes"
+    NO_PROVIDER_RESPONSE_DELAY               = "${module.secrets.secrets["il-gcc"].secret_arn}:no_provider_response_delay"
     ALLOW_PDF_MODIFICATION                   = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
     RESOURCE_ORG_EMAILS                      = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
     AWS_REGION                               = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
@@ -299,12 +301,12 @@ module "worker" {
     ENABLE_SENDGRID_EMAIL_VALIDATION         = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_sendgrid_email_validation"
     ENABLE_FASTER_APPLICATION_EXPIRY         = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry"
     ENABLE_FASTER_APPLICATION_EXPIRY_MINUTES = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry_minutes"
-
-    ALLOW_PDF_MODIFICATION = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
-    RESOURCE_ORG_EMAILS    = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
-    AWS_REGION             = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
-    AWS_SECRET_KEY         = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
-    AWS_ACCESS_KEY         = "${module.secrets.secrets["aws"].secret_arn}:aws_access_key"
+    NO_PROVIDER_RESPONSE_DELAY               = "${module.secrets.secrets["il-gcc"].secret_arn}:no_provider_response_delay"
+    ALLOW_PDF_MODIFICATION                   = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
+    RESOURCE_ORG_EMAILS                      = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
+    AWS_REGION                               = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
+    AWS_SECRET_KEY                           = "${module.secrets.secrets["aws"].secret_arn}:aws_secret_key"
+    AWS_ACCESS_KEY                           = "${module.secrets.secrets["aws"].secret_arn}:aws_access_key"
   }
 
   tags = { service = "application-worker" }
@@ -390,6 +392,7 @@ module "dashboard" {
     ENABLE_SENDGRID_EMAIL_VALIDATION         = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_sendgrid_email_validation"
     ENABLE_FASTER_APPLICATION_EXPIRY         = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry"
     ENABLE_FASTER_APPLICATION_EXPIRY_MINUTES = "${module.secrets.secrets["il-gcc"].secret_arn}:enable_faster_application_expiry_minutes"
+    NO_PROVIDER_RESPONSE_DELAY               = "${module.secrets.secrets["il-gcc"].secret_arn}:no_provider_response_delay"
     ALLOW_PDF_MODIFICATION                   = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
     RESOURCE_ORG_EMAILS                      = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
     AWS_REGION                               = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
