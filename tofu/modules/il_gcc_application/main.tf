@@ -312,6 +312,7 @@ module "dashboard" {
   subdomain              = "dashboard"
   vpc_id                 = var.vpc_id
   private_subnets        = var.private_subnets
+  public_subnets         = var.public_subnets
   logging_key_id         = var.logging_key
   force_delete           = var.force_delete
   container_port         = 8000
