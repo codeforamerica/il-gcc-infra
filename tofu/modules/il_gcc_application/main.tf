@@ -325,6 +325,7 @@ module "dashboard" {
   version_parameter      = aws_ssm_parameter.version.name
   repository_arn         = module.service.repository_arn
   public                 = true
+  health_check_path      = "/actuator/health"
 
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
