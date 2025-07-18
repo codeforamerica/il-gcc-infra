@@ -7,3 +7,4 @@ data "aws_lambda_function" "datadog" {
 
   function_name = local.datadog_lambda[0]
 }
+

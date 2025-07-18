@@ -92,6 +92,12 @@ variable "secret_recovery_period" {
   }
 }
 
+variable "state_version_expiration" {
+  description = "Number of days after which noncurrent object versions expire"
+  type        = number
+  default     = 90
+}
+
 variable "subdomain" {
   description = "An optional subdomain which will be appended to the beginning of the domain name for the service."
   type        = string

@@ -402,3 +402,19 @@ module "dashboard" {
 
   tags = { service = "application-dashboard" }
 }
+
+resource "aws_kms_key" "get_child_care_illinois" {
+  description             = "OpenTofu S3 encryption key for get_child_care_illinois ${var.environment}"
+  deletion_window_in_days = 30
+  enable_key_rotation     = true
+  policy = templatefile("${path.module}/templates/key-policy.json.tftpl", {
+    account_id : data.aws_caller_identity.identity.account_id,
+    partition : data.aws_partition.current.partition,
+    bucket_arn : aws_s3_bucket.get_child_care_illinois.bucket,
+    environment: var.environment
+  })
+}
+
+data "aws_caller_identity" "identity" {}
+
+data "aws_partition" "current" {}
