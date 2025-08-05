@@ -230,6 +230,7 @@ module "service" {
     NO_PROVIDER_RESPONSE_DELAY               = "${module.secrets.secrets["il-gcc"].secret_arn}:no_provider_response_delay"
     ALLOW_PDF_MODIFICATION                   = "${module.secrets.secrets["il-gcc"].secret_arn}:allow_pdf_modification"
     RESOURCE_ORG_EMAILS                      = "${module.secrets.secrets["il-gcc"].secret_arn}:resource_org_emails"
+    AWS_REGION                               = "${module.secrets.secrets["aws"].secret_arn}:aws_region"
   }
 }
 
