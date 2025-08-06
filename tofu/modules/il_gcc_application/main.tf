@@ -182,6 +182,8 @@ module "service" {
   public                 = var.public
   health_check_path      = "/actuator/health"
   desired_containers     = 2
+  execution_policies     = [aws_iam_policy.ecs_s3_access.arn]
+  task_policies          = [aws_iam_policy.ecs_s3_access.arn]
 
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
@@ -254,6 +256,8 @@ module "worker" {
   image_url              = module.service.repository_url
   version_parameter      = aws_ssm_parameter.version.name
   repository_arn         = module.service.repository_arn
+  execution_policies     = [aws_iam_policy.ecs_s3_access.arn]
+  task_policies          = [aws_iam_policy.ecs_s3_access.arn]
 
   environment_variables = {
     DATABASE_HOST = module.database.cluster_endpoint
@@ -410,6 +414,35 @@ resource "aws_kms_key" "get_child_care_illinois" {
     partition : data.aws_partition.current.partition,
     bucket_arn : aws_s3_bucket.get_child_care_illinois.bucket,
     environment: var.environment
+  })
+}
+
+# IAM policy for ECS tasks to access S3
+resource "aws_iam_policy" "ecs_s3_access" {
+  name = "il-gcc-${var.environment}-ecs-s3-access"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket",
+          "s3:DeleteObject",
+          "kms:Decrypt",
+          "kms:Encrypt",
+          "kms:GenerateDataKey",
+          "kms:DescribeKey",
+        ]
+        Resource = [
+          aws_s3_bucket.get_child_care_illinois.arn,
+          "${aws_s3_bucket.get_child_care_illinois.arn}/*",
+          aws_kms_key.get_child_care_illinois.arn
+        ]
+      }
+    ]
   })
 }
 
