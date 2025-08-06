@@ -428,6 +428,7 @@ resource "aws_iam_policy" "ecs_s3_access" {
         Effect = "Allow"
         Action = [
           "s3:GetObject",
+          "s3:GetObjectTagging",
           "s3:PutObject",
           "s3:ListBucket",
           "s3:DeleteObject",
