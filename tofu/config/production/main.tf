@@ -14,19 +14,6 @@ module "backend" {
   environment = "prod"
 }
 
-# Create hosted zones for DNS.
-module "hosted_zones" {
-  source  = "terraform-aws-modules/route53/aws//modules/zones"
-  version = "~> 5.0"
-
-  zones = {
-    document_transfer = {
-      domain_name = "illinois.document-transfer.cfa.codes"
-      comment     = "Hosted zone for the Document Transfer service."
-    }
-  }
-}
-
 # Create an S3 bucket and KMS key for logging.
 module "logging" {
   source = "github.com/codeforamerica/tofu-modules-aws-logging?ref=2.1.0"
@@ -67,20 +54,4 @@ module "bastion" {
   private_subnet_ids      = module.vpc.private_subnets
   vpc_id                  = module.vpc.vpc_id
   kms_key_recovery_period = 30
-}
-
-module "microservice" {
-  source = "../../modules/document_transfer"
-
-  environment           = "prod"
-  stats_environment     = "production"
-  logging_key           = module.logging.kms_key_arn
-  vpc_id                = module.vpc.vpc_id
-  database_capacity_min = 2
-  database_capacity_max = 2
-  domain                = "illinois.document-transfer.cfa.codes"
-  database_snapshot     = "arn:aws:rds:us-east-1:211125423013:cluster-snapshot:prod-cluster-env-update"
-
-  # Allow access from the peered web application.
-  ingress_cidrs = ["10.65.0.0/16"]
 }
